@@ -22,18 +22,17 @@ app.get("/",(req,res)=>{
 })
 
 // Proxy requests to Digilocker API
-app.post('/get-token', async (req, res) => {
-    const { payload } = req.body;
+app.post('/get-token/:payload', async (req, res) => {
+    const { payload } = req.params;
     
     const url = process.env.DIGI_URL_1;
     const Code = payload;
-    console.log("Code",Code);
 
-    const grantType = 'authorization_code';
-    const clientId = 'AW6A72E90E';
-    const clientSecret = '88c23091c8b73a89b7a2';
-    const redirectUri = 'https://verified-adharcard.vercel.app/';
-    const codeVerifier = '_34W.h85p9~C_E5afi.ALG.yV_dD2Adq~Xda4k3W7U8n8y';
+    const grantType =  process.env.grantType;
+    const clientId =  process.env.clientId;
+    const clientSecret =  process.env.clientSecret;
+    const redirectUri =  process.env.redirectUri;
+    const codeVerifier =  process.env.codeVerifier;
 
     const bodyData = `code=${encodeURIComponent(Code)}&grant_type=${encodeURIComponent(grantType)}&client_id=${encodeURIComponent(clientId)}&client_secret=${encodeURIComponent(clientSecret)}&redirect_uri=${encodeURIComponent(redirectUri)}&code_verifier=${encodeURIComponent(codeVerifier)}`;
 
