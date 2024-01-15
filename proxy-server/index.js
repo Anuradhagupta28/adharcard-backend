@@ -6,8 +6,16 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 9090; 
 
+
+
 app.use(express.json());
 app.use(cors());
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+    });
 
 app.get("/",(req,res)=>{
     res.status(200).send(`<h1 style="text-align:center;">Welcome in Anuradha Backend</h1>`);
@@ -55,6 +63,9 @@ app.post('/get-token', async (req, res) => {
         } else {
             res.status(500).json({ error: 'Unexpected response from the second API' });
         }        
+
+        console.log('Response from Digilocker Token Endpoint:', fetchingData.data);
+        console.log('Response from Digilocker API with Access Token:', fetchingData2WithAccessToken.data);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
